@@ -1,0 +1,52 @@
+######################################################################
+# Build Tools
+
+.gradle
+/build/build/
+!gradle/wrapper/gradle-wrapper.jar
+# PyInstaller 中间产物与 Linux 打包临时目录（打包脚本位于 build/ 下）
+/build/pyi/
+/build/linux_pkg/
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+######################################################################
+# IDE
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+/data
+### IntelliJ IDEA ###
+.idea
+/build/dist/
+*.iws
+*.iml
+*.ipr
+
+### JRebel ###
+rebel.xml
+### NetBeans ###
+nbproject/private/
+/build/build/*
+nbbuild/
+nbdist/
+.nb-gradle/
+
+######################################################################
+# Others
+*.log
+*.log.gz
+*.xml.versionsBackup
+*.swp
+
+!*/build/*.java
+!*/build/*.html
+!*/build/*.xml
+
+.flattened-pom.xml

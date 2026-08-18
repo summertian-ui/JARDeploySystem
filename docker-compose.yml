@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  jar-deploy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jar-deploy-system:latest
+    container_name: jar-deploy
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    environment:
+      - TZ=Asia/Shanghai
+      - FLASK_ENV=production
+    volumes:
+      # 挂载数据目录（持久化数据库）
+      - ./data:/app/data
+      # 挂载日志目录
+      - ./logs:/app/logs
+      # 挂载静态文件（可选，方便修改样式）
+      - ./static:/app/static:ro
+      # 挂载模板文件（可选，方便修改前端）
+      - ./templates:/app/templates:ro
+      # 挂载部署目录（用于访问本地部署的 JAR 包）
+      - /home/1panel/apps/minio/minio/data/deploy:/home/deploy:ro
+    networks:
+      - jar-deploy-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  jar-deploy-network:
+    driver: bridge

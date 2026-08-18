@@ -1,0 +1,106 @@
+{
+  "database": {
+    "type": "sqlite",
+    "path": "data/deploy.db"
+  },
+  "tables": {
+    "system_config": {
+      "create_sql": "CREATE TABLE IF NOT EXISTS system_config (\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\n  config_name TEXT NOT NULL UNIQUE,\n  local_base TEXT NOT NULL,\n  is_default INTEGER DEFAULT 0,\n  create_time TEXT,\n  update_time TEXT,\n  config_status TEXT DEFAULT 'active'\n)",
+      "init_data": [
+        {
+          "id": 1,
+          "config_name": "macos",
+          "local_base": "/Users/summer/IdeaProjects/zy/zy-cloud-plus",
+          "is_default": 1,
+          "create_time": "2026-08-15 00:00:00",
+          "update_time": "2026-08-15 00:00:00",
+          "config_status": "active"
+        },
+        {
+          "id": 2,
+          "config_name": "windows",
+          "local_base": "D:/workspace/zy/zy-cloud-plus",
+          "is_default": 0,
+          "create_time": "2026-08-15 00:00:00",
+          "update_time": "2026-08-15 00:00:00",
+          "config_status": "active"
+        },
+        {
+          "id": 3,
+          "config_name": "linux",
+          "local_base": "/home/developer/workspace/zy/zy-cloud-plus",
+          "is_default": 0,
+          "create_time": "2026-08-15 00:00:00",
+          "update_time": "2026-08-15 00:00:00",
+          "config_status": "active"
+        },
+        {
+          "id": 4,
+          "config_name": "remoteLinux",
+          "local_base": "/home/deploy",
+          "is_default": 0,
+          "create_time": "2026-08-15 00:00:00",
+          "update_time": "2026-08-15 00:00:00",
+          "config_status": "active"
+        }
+      ]
+    },
+    "server_config": {
+      "create_sql": "CREATE TABLE IF NOT EXISTS server_config (\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\n  config_name TEXT NOT NULL,\n  server_name TEXT NOT NULL,\n  host TEXT NOT NULL,\n  username TEXT NOT NULL DEFAULT 'root',\n  password TEXT NOT NULL,\n  port INTEGER DEFAULT 22,\n  remote_base TEXT DEFAULT '/home/question',\n  sort_order INTEGER DEFAULT 0,\n  is_default INTEGER DEFAULT 0,\n  create_time TEXT,\n  update_time TEXT,\n  config_status TEXT DEFAULT 'active',\n  FOREIGN KEY (config_name) REFERENCES system_config(config_name)\n)",
+      "init_data": [
+        {
+          "id": 1,
+          "config_name": "macos",
+          "server_name": "默认服务器",
+          "host": "192.168.31.34",
+          "username": "root",
+          "password": "1qaz@WSX",
+          "port": 22,
+          "remote_base": "/home/question",
+          "sort_order": 1,
+          "is_default": 1,
+          "create_time": "2026-08-15 01:00:00",
+          "update_time": "2026-08-15 01:00:00",
+          "config_status": "active"
+        },
+        {
+          "id": 2,
+          "config_name": "remoteLinux",
+          "server_name": "远端服务器",
+          "host": "192.168.31.34",
+          "username": "root",
+          "password": "1qaz@WSX",
+          "port": 22,
+          "remote_base": "/home/question2",
+          "sort_order": 1,
+          "is_default": 1,
+          "create_time": "2026-08-15 01:00:00",
+          "update_time": "2026-08-15 01:00:00",
+          "config_status": "active"
+        }
+      ]
+    },
+    "service_config": {
+      "create_sql": "CREATE TABLE IF NOT EXISTS service_config (\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\n  config_name TEXT NOT NULL,\n  server_id INTEGER NOT NULL,\n  service_name TEXT NOT NULL,\n  local_path TEXT NOT NULL,\n  remote_path TEXT,\n  create_time TEXT,\n  update_time TEXT,\n  config_status TEXT DEFAULT 'active',\n  FOREIGN KEY (config_name) REFERENCES system_config(config_name),\n  FOREIGN KEY (server_id) REFERENCES server_config(id),\n  UNIQUE(config_name, server_id, service_name)\n)",
+      "init_data": [
+        {"id": 1, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-auth", "local_path": "ruoyi-auth/target/ruoyi-auth.jar", "remote_path": "ruoyi-auth", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 2, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-demo", "local_path": "ruoyi-example/ruoyi-demo/target/ruoyi-demo.jar", "remote_path": "ruoyi-demo", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 3, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-gateway", "local_path": "ruoyi-gateway/target/ruoyi-gateway.jar", "remote_path": "ruoyi-gateway", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 4, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-gen", "local_path": "ruoyi-modules/ruoyi-gen/target/ruoyi-gen.jar", "remote_path": "ruoyi-gen", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 5, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-job", "local_path": "ruoyi-modules/ruoyi-job/target/ruoyi-job.jar", "remote_path": "ruoyi-job", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 6, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-monitor", "local_path": "ruoyi-visual/ruoyi-monitor/target/ruoyi-monitor.jar", "remote_path": "ruoyi-monitor", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 7, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-question", "local_path": "ruoyi-modules/ruoyi-question/target/ruoyi-question.jar", "remote_path": "ruoyi-question", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 8, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-resource", "local_path": "ruoyi-modules/ruoyi-resource/target/ruoyi-resource.jar", "remote_path": "ruoyi-resource", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 9, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-snailai-server", "local_path": "ruoyi-visual/ruoyi-snailai-server/target/ruoyi-snailai-server.jar", "remote_path": "ruoyi-snailai-server", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 10, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-snailjob-server", "local_path": "ruoyi-visual/ruoyi-snailjob-server/target/ruoyi-snailjob-server.jar", "remote_path": "ruoyi-snailjob-server", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 11, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-system", "local_path": "ruoyi-modules/ruoyi-system/target/ruoyi-system.jar", "remote_path": "ruoyi-system", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 12, "config_name": "macos", "server_id": 1, "service_name": "ruoyi-workflow", "local_path": "ruoyi-modules/ruoyi-workflow/target/ruoyi-workflow.jar", "remote_path": "ruoyi-workflow", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"},
+        {"id": 13, "config_name": "remoteLinux", "server_id": 2, "service_name": "ruoyi-auth", "local_path": "ruoyi-auth.jar", "remote_path": "ruoyi-auth", "create_time": "2026-08-15 00:00:00", "update_time": "2026-08-15 00:00:00", "config_status": "active"}
+      ]
+    },
+    "deploy_log": {
+      "create_sql": "CREATE TABLE IF NOT EXISTS deploy_log (\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\n  operation_type TEXT NOT NULL,\n  service_name TEXT,\n  status TEXT NOT NULL,\n  message TEXT,\n  detail TEXT,\n  operator TEXT,\n  ip_address TEXT,\n  user_agent TEXT,\n  create_time TEXT,\n  update_time TEXT\n)",
+      "init_data": []
+    }
+  }
+}

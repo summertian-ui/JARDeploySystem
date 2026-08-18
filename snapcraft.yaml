@@ -1,0 +1,20 @@
+name: jardeploysystem
+version: '1.0.0'
+summary: JAR 包自动部署系统桌面版
+description: |
+  JAR 包自动部署系统的桌面客户端：内置 Flask 服务与原生窗口的部署管理工具。
+base: core24
+grade: devel
+confinement: devmode
+apps:
+  jardeploysystem:
+    command: JARDeploySystem
+    plugs: [network, network-bind, home, removable-media]
+parts:
+  bundle:
+    plugin: dump
+    source: dist/JARDeploySystem
+    stage-packages:
+      - libwebkit2gtk-4.1-0
+      - gir1.2-webkit2-4.1
+      - libgirepository-1.0-1
