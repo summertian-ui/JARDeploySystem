@@ -31,7 +31,7 @@ python -m PyInstaller --noconfirm --clean --onefile --windowed ^
   --add-data "static;static" ^
   --collect-submodules webview ^
   --workpath build\pyi ^
-  --distpath dist ^
+  --distpath build\dist ^
   desktop_app.py
 if errorlevel 1 (
   echo [错误] 打包失败

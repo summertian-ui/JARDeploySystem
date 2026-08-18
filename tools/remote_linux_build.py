@@ -24,15 +24,10 @@ TARGET = " ".join(TARGETS) if TARGETS else "all"
 POLL_TIMEOUT = int(os.environ.get("JB_POLL_TIMEOUT", "3600"))  # 秒
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-try:
-    import deploy_core  # noqa: E402
-    HOST = os.environ.get("JB_HOST", deploy_core.HOST)
-    USER = os.environ.get("JB_USER", deploy_core.USER)
-    PASSWORD = os.environ.get("JB_PASSWORD", deploy_core.PASSWORD)
-except Exception:
-    HOST = os.environ.get("JB_HOST", "192.168.31.34")
-    USER = os.environ.get("JB_USER", "root")
-    PASSWORD = os.environ.get("JB_PASSWORD", "")
+HOST = os.environ.get("JB_HOST", "192.168.31.34")
+USER = os.environ.get("JB_USER", "root")
+PASSWORD = os.environ.get("JB_PASSWORD", "1qaz@WSX")
+
 
 REMOTE_DIR = os.environ.get("JB_REMOTE_DIR", "/root/jardeploy_build")
 LOCAL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
